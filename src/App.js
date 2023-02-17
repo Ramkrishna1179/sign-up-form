@@ -1,6 +1,14 @@
+
+
+
+
+
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from "react";
 let email;
+// let x;
+// let y;
+let arr =[];
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -12,6 +20,17 @@ export default class App extends Component {
       confirm_password: "",
     };
   }
+
+  //   componentDidMount() {
+  //   // Load form data from local storage if it exists
+  //   const formData = JSON.parse(localStorage.getItem("formData"));
+  //   if (formData) {
+  //     this.setState({
+  //       name: formData.name,
+  //       email: formData.email,
+  //     });
+  //   }
+  // }
 
   handleName = (e) => {
     let name = e.target.value;
@@ -87,6 +106,11 @@ export default class App extends Component {
       alert("Yeah! Signed Up Successfully");
       window.location.reload();
     }
+    let obj={}
+         obj.x = this.state.name;
+         obj.y = this.state.email;
+         arr.push(obj)
+        localStorage.setItem("formData", JSON.stringify(arr));
   };
   render() {
     return (
@@ -95,12 +119,12 @@ export default class App extends Component {
           <div className="col-4 mx-auto mt-5 p-5 bg-light">
             <form>
               <div class="form-group mt-2">
-                <label for="name">Name</label>
+                <label htmlFor="name">Name</label>
                 <input
                   maxLength={25}
                   type="text"
                   name="name"
-                  class="form-control"
+                  className="form-control"
                   id="name"
                   placeholder="Enter Name..."
                   value={this.state.name}
@@ -110,11 +134,11 @@ export default class App extends Component {
                 />
               </div>
               <div class="form-group mt-2">
-                <label for="email">Email</label>
+                <label htmlFor="email">Email</label>
                 <input
                   type="Email"
                   name="email"
-                  class="form-control"
+                  className="form-control"
                   id="email"
                   placeholder="email"
                   value={this.state.email}
@@ -125,12 +149,12 @@ export default class App extends Component {
               </div>
 
               <div class="form-group mt-2">
-                <label for="number">Mobile Number</label>
+                <label htmlFor="number">Mobile Number</label>
                 <input
                   type="text"
                   maxLength={10}
                   name="number"
-                  class="form-control"
+                  className="form-control"
                   id="number"
                   placeholder="Enter Number..."
                   value={this.state.number}
@@ -141,13 +165,13 @@ export default class App extends Component {
               </div>
 
               <div class="form-group mt-2">
-                <label for="password">Password</label>
+                <label htmlFor="password">Password</label>
                 <input
                   type="Password"
                   name="password"
                   minLength={6}
                   maxLength="16"
-                  class="form-control"
+                  className="form-control"
                   id="password"
                   placeholder="Enter Password"
                   value={this.state.password}
@@ -158,12 +182,13 @@ export default class App extends Component {
               </div>
 
               <div class="form-group mt-2">
-                <label for="con_password">Confirm Password</label>
+                <label htmlFor="con_password">Confirm Password</label>
                 <input
                   type="Password"
                   name="con_password"
-                  maxLength="8"
-                  class="form-control"
+                  minLength="6"
+                  maxLength="16"
+                  className="form-control"
                   id="con_password"
                   placeholder="Confirm Password"
                   value={this.state.confirm_password}
