@@ -1,0 +1,38 @@
+{
+  "posts": [
+    {
+      "name": "PABLU",
+      "email": "pablu@gmail.com",
+      "number": "9999999999",
+      "password": "9999999",
+      "confirm_password": "9999999",
+      "id": 1
+    },
+    {
+      "name": "pandey",
+      "email": "pandey@gmail.com",
+      "number": "8888888888",
+      "password": "88888888",
+      "confirm_password": "888888888",
+      "id": 2
+    },
+    {
+      "name": "pandey",
+      "email": "pandey@gmail.com",
+      "number": "8888888888",
+      "password": "88888888",
+      "confirm_password": "88888888",
+      "id": 3
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

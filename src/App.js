@@ -1,14 +1,10 @@
-
-
-
-
-
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from "react";
 let email;
 // let x;
+let arr = [];
+
 // let y;
-let arr =[];
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -78,18 +74,39 @@ export default class App extends Component {
     this.setState({ password: e.target.value });
   };
   handleConfirm_password = (e) => {
-    if(this.state.password.length<6||this.state.password.length>16){
-      alert("Your password length between 6 to 16")
+    if (this.state.password.length < 6 || this.state.password.length > 16) {
+      alert("Your password length between 6 to 16");
     }
     this.setState({ confirm_password: e.target.value });
   };
-  submitForm = (e) => {
+ submitForm = async(e) => {
+
     let name = this.state.name;
     let email = this.state.email;
     let number = this.state.number;
     let password = this.state.password;
     let confirm_password = this.state.confirm_password;
     e.preventDefault();
+
+    let postdata = {
+
+      name,
+      email,
+      number,
+      password,
+      confirm_password
+         }
+          console.log(postdata)
+      let res = await fetch(`http://localhost:3000/posts`,{
+        method:"POST",
+        body: JSON.stringify(postdata),
+        headers:{"content-Type":"application/json"}
+      })
+      debugger
+      let data = await res.json();
+      alert(data.password);
+
+
     if (
       this.state.name == "" ||
       this.state.email == "" ||
@@ -106,11 +123,14 @@ export default class App extends Component {
       alert("Yeah! Signed Up Successfully");
       window.location.reload();
     }
-    let obj={}
-         obj.x = this.state.name;
-         obj.y = this.state.email;
-         arr.push(obj)
-        localStorage.setItem("formData", JSON.stringify(arr));
+    // let obj = {};
+    // obj.name = this.state.name;
+    // obj.email = this.state.email;
+    // arr.push(obj);
+    // localStorage.setItem("formData", JSON.stringify(arr));
+
+  
+
   };
   render() {
     return (
@@ -200,6 +220,7 @@ export default class App extends Component {
 
               <div className="text-center mt-3">
                 <button
+                  id="sign-up-btn"
                   class="btn btn-primary w-50 rounded-pill"
                   onClick={(e) => this.submitForm(e)}
                 >
@@ -213,22 +234,3 @@ export default class App extends Component {
     );
   }
 }
-// <div class="form-check">
-//                 <input type="checkbox" class="form-check-input" id="name" />
-//                 <label class="form-check-label" for="name">
-//                   Check me out
-//                 </label>
-//               </div>
-
-// if (email === "") {
-//   alert("Please input email address");
-// } else if (email.indexOf("@") <= 0) {
-//   alert("Please enter @ in email field");
-// } else if (
-//   email.charAt(email.length - 4) !== "." &&
-//   email.charAt(email.length - 3) !== "."
-// ) {
-//   alert("Please enter a valid . input");
-// } else if (email.includes("gmail") !== true) {
-//   alert("Please enter a valid email address");
-// }
