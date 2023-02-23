@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Sidenav from "./Sidenav";
+import { Link } from "react-router-dom";
+import "./Signin";
 let email;
 let arr = [];
 export default class signup extends Component {
@@ -16,46 +17,58 @@ export default class signup extends Component {
 
   handleName = (e) => {
     let name = e.target.value;
-    if (/^[a-zA-Z]+$/.test(name) === true) {
-      this.setState({ name: e.target.value });
-    } else {
-      alert("Please wri only characters");
-      this.setState({ name: "" });
-    }
+    let nameVal = /^[A-Za-z]+$/;
+    if (name == "" || nameVal.test(name)) this.setState({ name: name });
   };
 
   handleEmail = (e) => {
     email = e.target.value;
     this.setState({ email: email });
   };
+
   handleNumber = (e) => {
-    if (email === "") {
+    this.setState({ number: e.target.value });
+
+    if (email == "") {
       alert("Please input email address");
-    } else if (email.indexOf("@") <= 0) {
+      document.myform1.email.focus();
+    }
+    if (email.indexOf("@") <= 0) {
       alert("Please enter @ in email field");
+      document.myform1.email.focus();
     } else if (email.includes("gmail") !== true) {
       alert("Please enter a valid email address");
+      document.myform1.email.focus();
     } else if (
       email.charAt(email.length - 4) !== "." &&
       email.charAt(email.length - 3) !== "."
     ) {
-      alert("Please enter a valid . input");
-    } else if (isNaN(e.target.value)) {
+      alert("Please enter . ");
+      document.myform1.email.focus();
+    }
+
+    if (isNaN(e.target.value)) {
       alert("Please input Number Value");
-    } else if (
+      e.target.value = "";
+      document.myform1.number.focus();
+    }
+
+    if (
       e.target.value.charAt(0) != 9 &&
       e.target.value.charAt(0) != 8 &&
       e.target.value.charAt(0) != 7
     ) {
       alert("Please Start Your Number with 9, 8, 7");
-    } else {
-      this.setState({ number: e.target.value });
+      e.target.value = "";
+      document.myform1.number.focus();
     }
+    this.setState({ number: e.target.value });
   };
 
   handlePassword = (e) => {
     if (this.state.number.length < 10) {
       alert("Please complete your mobile number");
+      document.myform1.number.focus();
     }
     this.setState({ password: e.target.value });
   };
@@ -66,13 +79,12 @@ export default class signup extends Component {
     this.setState({ confirm_password: e.target.value });
   };
   submitForm = async (e) => {
+    e.preventDefault();
     let name = this.state.name;
     let email = this.state.email;
     let number = this.state.number;
     let password = this.state.password;
     let confirm_password = this.state.confirm_password;
-    e.preventDefault();
-
     let postdata = {
       name,
       email,
@@ -88,18 +100,33 @@ export default class signup extends Component {
     });
     // debugger
     let data = await res.json();
-    // let data = await res.text();
 
-    // alert(data.password);
+    if (document.myform1.name.value == "") {
+      alert("enter name");
+      document.myform1.name.focus();
+      return false;
+    }
 
-    if (
-      this.state.name == "" ||
-      this.state.email == "" ||
-      this.state.number == "" ||
-      this.state.password == "" ||
-      this.state.confirm_password == ""
-    ) {
-      alert("Please fill all the details");
+    if (document.myform1.email.value == "") {
+      alert("enter email");
+      document.myform1.email.focus();
+      return false;
+    }
+
+    if (document.myform1.number.value == "") {
+      alert("enter number");
+      document.myform1.number.focus();
+      return false;
+    }
+    if (document.myform1.password.value == "") {
+      alert("enter password");
+      document.myform1.password.focus();
+      return false;
+    }
+    if (document.myform1.confirm_password.value == "") {
+      alert("enter confirm password");
+      document.myform1.confirm_password.focus();
+      return false;
     } else if (
       this.state.password.includes(this.state.confirm_password) !== true
     ) {
@@ -119,10 +146,15 @@ export default class signup extends Component {
     return (
       <div className="App">
         <div className="container">
-          <div className="col-4 mx-auto mt-5 p-5 bg-light">
-            <form>
+          <p id="form1" className="mx-auto text-center">
+            <i className="text-center">Sign Up Form Javascript Validation</i>
+          </p>
+          <div id="box1" className="col-4 mx-auto  bg-light">
+            <form name="myform1">
               <div class="form-group mt-2">
-                <label htmlFor="name">Name</label>
+                <label className="mb-4 label" htmlFor="name">
+                  Name
+                </label>
                 <input
                   maxLength={25}
                   type="text"
@@ -137,7 +169,9 @@ export default class signup extends Component {
                 />
               </div>
               <div class="form-group mt-2">
-                <label htmlFor="email">Email</label>
+                <label className="mb-4 label" htmlFor="email">
+                  Email
+                </label>
                 <input
                   type="Email"
                   name="email"
@@ -152,7 +186,9 @@ export default class signup extends Component {
               </div>
 
               <div class="form-group mt-2">
-                <label htmlFor="number">Mobile Number</label>
+                <label className="label mb-4" htmlFor="number">
+                  Mobile Number
+                </label>
                 <input
                   type="text"
                   maxLength={10}
@@ -168,7 +204,9 @@ export default class signup extends Component {
               </div>
 
               <div class="form-group mt-2">
-                <label htmlFor="password">Password</label>
+                <label className="label mb-4" htmlFor="password">
+                  Password
+                </label>
                 <input
                   type="Password"
                   name="password"
@@ -185,14 +223,16 @@ export default class signup extends Component {
               </div>
 
               <div class="form-group mt-2">
-                <label htmlFor="con_password">Confirm Password</label>
+                <label className="label mb-4" htmlFor="con_password">
+                  Confirm Password
+                </label>
                 <input
                   type="Password"
-                  name="con_password"
+                  name="confirm_password"
                   minLength="6"
                   maxLength="16"
                   className="form-control"
-                  id="con_password"
+                  id="confirm_password"
                   placeholder="Confirm Password"
                   value={this.state.confirm_password}
                   onChange={(e) => {
@@ -201,17 +241,18 @@ export default class signup extends Component {
                 />
               </div>
 
-              <div className="text-center mt-3">
-                <button
-                  id="sign-up-btn"
-                  class="btn btn-primary w-50 rounded-pill"
+              <div className="text-center mt-3 mb-3">
+                <a
+                  href="#"
                   onClick={(e) => this.submitForm(e)}
+                  className="me-2"
                 >
-                  Sign up
-                </button>
-              </div>
-              <div className="text-center mt-3">
-                <Sidenav />
+                  Submit
+                </a>
+                or
+                <a style={{ display: "inline-block" }} className="ms-2">
+                  <Link to="/Signin">Sign in</Link>
+                </a>
               </div>
             </form>
           </div>
